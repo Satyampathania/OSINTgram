@@ -1,110 +1,196 @@
-import os
-import time
-import instaloader
-from colorama import Fore, Style, init
-import requests
+import pyfiglet
+from colorama import Fore, Style
 
-# Initialize colorama
-init(autoreset=True)
+# ASCII Art for OSINTgram
+def display_ascii_art():
+    ascii_art = pyfiglet.figlet_format("OSINTgram")
+    print(Fore.CYAN + ascii_art + Style.RESET_ALL)
 
-# Function to clear screen based on OS
-def clear_screen():
-    os.system('cls' if os.name == 'nt' else 'clear')
+# Mocked Instagram Data (Replace with API calls or scraping logic)
+mock_data = {
+    "profile": {
+        "username": "satyam.pathania",
+        "followers": 895,
+        "followings": 120,
+        "bio": "eyes are loud 👀",
+        "posts": 42,
+    },
+    "posts": [
+        {"id": 1, "caption": "Climb the mountain not to plant a flag 🌄", "likes": 120, "comments": 15},
+        {"id": 2, "caption": "All about the vibe 🔆", "likes": 200, "comments": 25},
+        {"id": 3, "caption": "Ethical Hacking 💻", "likes": 180, "comments": 18},
+    ],
+    "emails": ["testuser1@mail.com", "testuser2@mail.com"],
+    "phone_numbers": ["+1234567890", "+0987654321"],
+    "hashtags": ["#vibes", "#hacking", "#cybersecurity"],
+    "tagged_users": ["@john_doe", "@jane_doe"],
+    "commenters": ["@commenter1", "@commenter2"],
+}
 
-# Function to display the animated startup
-def animated_intro():
-    intro_frames = [
-        f"""
-{Fore.GREEN}███████╗██████╗ ██╗     ██╗   ██╗███████╗██████╗ 
-{Fore.GREEN}╚══██╔══╝██╔══██╗██║     ██║   ██║██╔════╝██╔══██╗
-{Fore.RED}   ██║   ██████╔╝██║     ██║   ██║███████╗██████╔╝
-{Fore.YELLOW}   ██║   ██╔══██╗██║     ██║   ██║╚════██║██╔═══╝ 
-{Fore.CYAN}   ██║   ██████╔╝██████╗ ╚██████╔╝███████║██║     
-{Fore.MAGENTA}   ╚═╝   ╚═════╝ ╚═════╝  ╚═════╝ ╚══════╝╚═╝     
-    """,
-    ]
+# Feature Implementations
+def addrs():
+    print("Fetching all registered addresses by target photos...")
+    print("Registered Addresses: Not available in mock data. (Implement scraping here)")
 
-    for _ in range(3):  # Display 3 times
-        for frame in intro_frames:
-            clear_screen()
-            print(frame)
-            time.sleep(0.3)
+def captions():
+    print("Fetching user's photo captions...")
+    for post in mock_data["posts"]:
+        print(f"Post {post['id']}: {post['caption']}")
 
-# Function to display social links
-def display_socials():
-    socials = f"""
-{Fore.YELLOW}--- ABOUT ME ---
-{Fore.CYAN}👋 Hi, I'm Satyam! A passionate Security Researcher and Developer.
-{Fore.GREEN}🌐 LinkedIn: {Fore.RESET}https://www.linkedin.com/in/satyam-pathania/
-{Fore.BLUE}🐦 X (Twitter): {Fore.RESET}https://x.com/satyam72565815
-{Fore.MAGENTA}🎥 YouTube: {Fore.RESET}https://www.youtube.com/@cryptoKnight69
+def comments():
+    print("Fetching total comments on target's posts...")
+    total_comments = sum(post["comments"] for post in mock_data["posts"])
+    print(f"Total Comments: {total_comments}")
 
-{Fore.YELLOW}--- SUPPORT ME ---
-{Fore.GREEN}☕ Buy Me a Coffee: {Fore.RESET}https://buymeacoffee.com/satyampathania
-{Fore.CYAN}💰 PayPal: {Fore.RESET}https://www.paypal.com/paypalme/satyampathania69
-"""
+def followers():
+    print("Fetching target's followers...")
+    print(f"Followers Count: {mock_data['profile']['followers']}")
 
-    print(socials)
+def followings():
+    print("Fetching users followed by the target...")
+    print(f"Following Count: {mock_data['profile']['followings']}")
 
-# Function to download Instagram profile data
-def download_instagram_data(profile_name):
-    L = instaloader.Instaloader()
+def fwersemail():
+    print("Fetching email addresses of target's followers...")
+    print("Emails:", ", ".join(mock_data["emails"]))
 
-    print(f"{Fore.GREEN}Fetching data for {profile_name}...")
+def fwingsemail():
+    print("Fetching email addresses of users followed by the target...")
+    print("Emails: Placeholder data (Replace with logic)")
 
-    try:
-        # Load profile
-        profile = instaloader.Profile.from_username(L.context, profile_name)
+def fwersnumber():
+    print("Fetching phone numbers of target's followers...")
+    print("Phone Numbers:", ", ".join(mock_data["phone_numbers"]))
 
-        # Show profile information
-        print(f"{Fore.CYAN}Profile Info for @{profile_name}:")
-        print(f"{Fore.MAGENTA}Name: {profile.full_name}")
-        print(f"{Fore.YELLOW}Bio: {profile.biography}")
-        print(f"{Fore.GREEN}Followers: {profile.followers}")
-        print(f"{Fore.RED}Following: {profile.followees}")
-        print(f"{Fore.CYAN}Posts: {profile.mediacount}")
+def fwingsnumber():
+    print("Fetching phone numbers of users followed by the target...")
+    print("Phone Numbers: Placeholder data (Replace with logic)")
 
-        # Download profile's recent posts
-        print(f"{Fore.YELLOW}Downloading latest posts...")
-        for post in profile.get_posts():
-            L.download_post(post, target=profile_name)
+def hashtags():
+    print("Fetching hashtags used by the target...")
+    print("Hashtags:", ", ".join(mock_data["hashtags"]))
 
-    except Exception as e:
-        print(f"{Fore.RED}Error: {str(e)}")
+def info():
+    print("Fetching target info...")
+    profile = mock_data["profile"]
+    print(f"Username: {profile['username']}")
+    print(f"Bio: {profile['bio']}")
+    print(f"Followers: {profile['followers']}")
+    print(f"Following: {profile['followings']}")
+    print(f"Posts: {profile['posts']}")
 
-# Function to install the tool
-def install_osintgram():
-    print("\n[INFO] Installing OSINTgram Tool...")
+def likes():
+    print("Fetching total likes of target's posts...")
+    total_likes = sum(post["likes"] for post in mock_data["posts"])
+    print(f"Total Likes: {total_likes}")
 
-    # Simulate installation with a delay
-    time.sleep(1)
-    print("[INFO] Fetching tool resources...")
+def mediatype():
+    print("Fetching post types (photo or video)...")
+    print("Post Types: Placeholder data (Replace with logic)")
 
-    try:
-        # A placeholder for a real request or tool download
-        url = "https://github.com/satyampathania/OSINTgram"
-        response = requests.get(url)
-        
-        if response.status_code == 200:
-            print("[INFO] Tool fetched successfully!")
-        else:
-            print("[ERROR] Could not fetch the tool.")
-    except requests.exceptions.RequestException as e:
-        print(f"[ERROR] Failed to fetch tool: {e}")
-    
-    print("\n[INFO] Installation complete!")
+def photodes():
+    print("Fetching descriptions of target's photos...")
+    print("Descriptions: Placeholder data (Replace with logic)")
 
-# Main function to run the tool
-def main():
-    animated_intro()  # Display intro animation
-    install_osintgram()  # Simulate installation
-    display_socials()  # Show social media links
+def photos():
+    print("Downloading user's photos...")
+    print("Photos: Downloading placeholder (Implement scraping logic here)")
 
-    # Get Instagram profile name from user
-    profile_name = input(f"{Fore.GREEN}\nEnter Instagram profile name: ")
+def propic():
+    print("Downloading user's profile picture...")
+    print("Profile Picture: Placeholder data (Implement scraping logic here)")
 
-    # Download data for the entered profile
-    download_instagram_data(profile_name)
+def stories():
+    print("Downloading user's stories...")
+    print("Stories: Placeholder data (Implement scraping logic here)")
 
+def tagged():
+    print("Fetching list of users tagged by the target...")
+    print("Tagged Users:", ", ".join(mock_data["tagged_users"]))
+
+def wcommented():
+    print("Fetching list of users who commented on target's photos...")
+    print("Commenters:", ", ".join(mock_data["commenters"]))
+
+def wtagged():
+    print("Fetching list of users who tagged the target...")
+    print("Tagged by: Placeholder data (Implement scraping logic here)")
+
+# Features Menu
+def display_menu():
+    print("\nSelect an operation:")
+    print("1. Get all registered addresses by target photos (addrs)")
+    print("2. Get user's photos captions (captions)")
+    print("3. Get total comments of target's posts (comments)")
+    print("4. Get target followers (followers)")
+    print("5. Get users followed by target (followings)")
+    print("6. Get email of target followers (fwersemail)")
+    print("7. Get email of users followed by target (fwingsemail)")
+    print("8. Get phone numbers of target followers (fwersnumber)")
+    print("9. Get phone numbers of users followed by target (fwingsnumber)")
+    print("10. Get hashtags used by target (hashtags)")
+    print("11. Get target info (info)")
+    print("12. Get total likes of target's posts (likes)")
+    print("13. Get user's post types (photo or video) (mediatype)")
+    print("14. Get descriptions of target's photos (photodes)")
+    print("15. Download user's photos (photos)")
+    print("16. Download user's profile picture (propic)")
+    print("17. Download user's stories (stories)")
+    print("18. Get list of users tagged by target (tagged)")
+    print("19. Get list of users who commented on target's photos (wcommented)")
+    print("20. Get list of users who tagged target (wtagged)")
+    print("21. Exit")
+    return input("\nEnter your choice (1-21): ")
+
+# Main Program
 if __name__ == "__main__":
-    main()
+    display_ascii_art()
+    print("Welcome to OSINTgram - An Instagram OSINT Tool\n")
+
+    while True:
+        user_choice = display_menu()
+        if user_choice == '1':
+            addrs()
+        elif user_choice == '2':
+            captions()
+        elif user_choice == '3':
+            comments()
+        elif user_choice == '4':
+            followers()
+        elif user_choice == '5':
+            followings()
+        elif user_choice == '6':
+            fwersemail()
+        elif user_choice == '7':
+            fwingsemail()
+        elif user_choice == '8':
+            fwersnumber()
+        elif user_choice == '9':
+            fwingsnumber()
+        elif user_choice == '10':
+            hashtags()
+        elif user_choice == '11':
+            info()
+        elif user_choice == '12':
+            likes()
+        elif user_choice == '13':
+            mediatype()
+        elif user_choice == '14':
+            photodes()
+        elif user_choice == '15':
+            photos()
+        elif user_choice == '16':
+            propic()
+        elif user_choice == '17':
+            stories()
+        elif user_choice == '18':
+            tagged()
+        elif user_choice == '19':
+            wcommented()
+        elif user_choice == '20':
+            wtagged()
+        elif user_choice == '21':
+            print("Exiting the tool. Goodbye!")
+            break
+        else:
+            print("Invalid choice. Please try again.")
